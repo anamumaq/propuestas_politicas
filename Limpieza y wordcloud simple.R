@@ -26,7 +26,7 @@ nube = function(x,iniciales){
   dtm = TermDocumentMatrix(x)# crear una taba con la frecuencia de repeticion 
   matriz = as.matrix(dtm) # crear una matriz
   palabras = sort(rowSums(matriz), decreasing = TRUE) # sumo las filas en la matriz
-  x_df = data.frame(row.names = NULL, candidato = iniciales, word = names(palabras), freq = palabras) # creo dataframe
+  x_df = data.frame(row.names = NULL, word = names(palabras), freq = palabras, candidato = iniciales) # creo dataframe
   return(x_df)
 }
 
@@ -58,9 +58,11 @@ df  = df_yl %>%
     union_all(df_ma)
 
 # wordcloud de cada candidato
-wordcloud2(data = df_gf[2:3], size = 0.6, color = 'random-dark')
+wordcloud2(data = df_gf[1:2], size = 0.6, color = 'random-dark')
 
 
+ggplot(df[2:3], aes(candidato))+ 
+  geom_bar()
 
 #### GRAFICA FINAL
   ## primera alternativa
