@@ -22,8 +22,7 @@ nube = function(x,iniciales){
   x = tm_map(x, removeWords, stopwords("Spanish")) # quitar stopwords
   x = tm_map(x, removeWords, 
             c("entonces","aquí","el","de","en","que","por","los","las","para","una","con","este")) # quitar mis propias stopwords
-  ##
-    
+  
   dtm = TermDocumentMatrix(x)# crear una taba con la frecuencia de repeticion 
   matriz = as.matrix(dtm) # crear una matriz
   palabras = sort(rowSums(matriz), decreasing = TRUE) # sumo las filas en la matriz
