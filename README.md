@@ -9,7 +9,7 @@ Se utilizaron los transcrip automaticos de youtube, pueden haber algunos errores
   **Planes para la Sunedu**
 - Los candidatos tienen 8 minutos para mencionar sus propuestas
 - Los df para cada propuesta de los candidatos llevan sus iniciales
-- 
+
 ## Resources
 - Se usó este video: https://www.youtube.com/watch?v=VBfTN6YVlZ4
 - Transcrip generadas automaticamente por Youtube
