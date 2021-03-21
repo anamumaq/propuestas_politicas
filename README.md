@@ -4,9 +4,9 @@ Se utilizaron los transcrip automaticos de youtube, pueden haber algunos errores
 
 ## Consideraciones
 - Las preguntas sobre las propuestas se basan en  
-  **Reflotar el sector educación tras la pandemia**
-  **Cómo se reforzará la virtualidad en las clases a distancia**
-  **Planes para la Sunedu**
+  * **Reflotar el sector educación tras la pandemia**
+  * **Cómo se reforzará la virtualidad en las clases a distancia**
+  * **Planes para la Sunedu**
 - Los candidatos tienen 8 minutos para mencionar sus propuestas
 - Los df para cada propuesta de los candidatos llevan sus iniciales
 
