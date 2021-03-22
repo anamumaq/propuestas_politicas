@@ -1,0 +1,176 @@
+---
+title: "Comparacion propuestas educativas - elecciones 2021"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(flexdashboard)
+library(tm)# para el text mining
+library(SnowballC) # para quitar las stopwords
+library(wordcloud2) #wordcloud con mejores interacciones
+
+
+# funcion nube genera df con el speech de cada candidato
+nube = function(x,iniciales){
+  
+  x = Corpus(VectorSource(x))# El texto es un speech la data debe subirse como un corpus
+  # inspect(vm) ## revisando
+  
+  ## Cleaning los stopwords, numeros y puntacion (no hay caracteres especiales &/?@)
+  x = x %>% 
+    tm_map(removeNumbers)%>% # eliminar los minutos
+    tm_map(removePunctuation)%>% # eliminar puntuacion o dospuntos
+    tm_map(stripWhitespace) # quitar dobles espacios o enter
+  
+  x = tm_map(x, content_transformer(tolower)) # aplicamos minusculas
+  x = tm_map(x, removeWords, stopwords("Spanish")) # quitar stopwords
+  x = tm_map(x, removeWords, 
+            c("entonces","aquí","el","de","en","que","por","los","las","para","una","con","este")) # quitar mis propias stopwords
+  
+  dtm = TermDocumentMatrix(x)# crear una taba con la frecuencia de repeticion 
+  matriz = as.matrix(dtm) # crear una matriz
+  palabras = sort(rowSums(matriz), decreasing = TRUE) # sumo las filas en la matriz
+  x_df = data.frame(row.names = NULL, word = names(palabras), freq = palabras, candidato = iniciales) # creo dataframe
+  return(x_df)
+}
+
+yl = readLines("YL politicas educativas.txt", encoding="UTF-8") # extrae el texto con tildes
+vm = readLines("VM politicas educativas.txt", encoding="UTF-8") 
+hds = readLines("HdS politicas educativas.txt", encoding="UTF-8") 
+rla = readLines("RLA politicas educativas.txt", encoding="UTF-8") 
+gf = readLines("GF politicas educativas.txt", encoding="UTF-8") 
+fc = readLines("FC politicas educativas.txt", encoding="UTF-8") 
+ma = readLines("MA politicas educativas.txt", encoding="UTF-8") 
+
+
+```
+
+Worldclouds 
+=============================
+
+Column
+-----------------------------------------------------------------------
+
+### Wordcloud Yonhy Lescano
+
+```{r}
+df_yl = nube(yl,"YL")
+wordcloud2(data = df_yl[1:2], size = 0.3, color = 'random-dark')
+```
+
+### Barchart Palabras
+
+```{r}
+ggplot(df_yl[0:5,1:2], aes(x = reorder(word, freq), y = freq, fill = word, label = freq))+ 
+  geom_bar(stat="identity", show.legend = FALSE)+
+  coord_flip()+  
+  labs(title = "Top palabras frecuentes", x = "Palabras", y = "Frecuencia") +
+  geom_label(aes(fill = word),colour = "white", fontface = "bold", show.legend = FALSE)
+```
+
+
+Column
+---------------------------------------------------------
+### Wordcloud Veronika Mendoza
+
+```{r}
+df_vm = nube(vm,"VM")
+wordcloud2(data = df_vm[1:2], size = 0.3, color = 'random-dark')
+```
+
+### Barchart Palabras
+
+```{r}
+ggplot(df_vm[0:5,1:2], aes(x = reorder(word, freq), y = freq, fill = word, label = freq))+ 
+  geom_bar(stat="identity", show.legend = FALSE)+
+  coord_flip()+  
+  labs(title = "Top palabras frecuentes", x = "Palabras", y = "Frecuencia") +
+  geom_label(aes(fill = word),colour = "white", fontface = "bold", show.legend = FALSE)
+```
+
+
+Column
+---------------------------------------------------------
+
+### Wordcloud George Forsyth
+
+```{r}
+df_gf = nube(gf,"GF")
+wordcloud2(data = df_gf[1:2], size = 0.3, color = 'random-dark')
+```
+
+### Barchart Palabras
+
+```{r}
+ggplot(df_gf[0:5,1:2], aes(x = reorder(word, freq), y = freq, fill = word, label = freq))+ 
+  geom_bar(stat="identity", show.legend = FALSE)+
+  coord_flip()+  
+  labs(title = "Top palabras frecuentes", x = "Palabras", y = "Frecuencia") +
+  geom_label(aes(fill = word),colour = "white", fontface = "bold", show.legend = FALSE)
+```
+
+Column
+---------------------------------------------------------
+### Wordcloud Hernando de Soto
+
+```{r}
+df_hds = nube(hds,"HdS")
+wordcloud2(data = df_hds[1:2], size = 0.3, color = 'random-dark')
+
+```
+
+### Barchart Palabras
+
+```{r}
+ggplot(df_hds[0:5,1:2], aes(x = reorder(word, freq), y = freq, fill = word, label = freq))+ 
+  geom_bar(stat="identity", show.legend = FALSE)+
+  coord_flip()+  
+  labs(title = "Top palabras frecuentes", x = "Palabras", y = "Frecuencia") +
+  geom_label(aes(fill = word),colour = "white", fontface = "bold", show.legend = FALSE)
+```
+
+Column
+---------------------------------------------------------
+### Wordcloud Rafael Lopez Aliaga
+
+```{r}
+df_rla = nube(rla,"RLA")
+wordcloud2(data = df_rla[1:2], size = 0.3, color = 'random-dark')
+```
+
+### Barchart Palabras
+
+```{r}
+ggplot(df_rla[0:5,1:2], aes(x = reorder(word, freq), y = freq, fill = word, label = freq))+ 
+  geom_bar(stat="identity", show.legend = FALSE)+
+  coord_flip()+  
+  labs(title = "Top palabras frecuentes", x = "Palabras", y = "Frecuencia") +
+  geom_label(aes(fill = word),colour = "white", fontface = "bold", show.legend = FALSE)
+```
+
+
+Column
+---------------------------------------------------------
+### Wordcloud Marco Arana
+
+```{r}
+df_ma = nube(ma,"MA")
+wordcloud2(data = df_ma[1:2], size = 0.3, color = 'random-dark')
+
+```
+
+### Barchart Palabras
+
+```{r}
+ggplot(df_ma[0:5,1:2], aes(x = reorder(word, freq), y = freq, fill = word, label = freq))+ 
+  geom_bar(stat="identity", show.legend = FALSE)+
+  coord_flip()+  
+  labs(title = "Top palabras frecuentes", x = "Palabras", y = "Frecuencia") +
+  geom_label(aes(fill = word),colour = "white", fontface = "bold", show.legend = FALSE)
+```
+
